@@ -10,7 +10,7 @@ func Generate(standard standard.Standard) string {
 	template := standard.GetTemplate()
 
 	password := make([]byte, standard.GetLength())
-	for i, _ := range password {
+	for i := range password {
 		index := rand.Int() % len(template)
 		password[i] = template[index]
 	}
