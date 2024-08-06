@@ -3,19 +3,13 @@ package standard
 import "strings"
 
 type Template string
-type Length uint
 
 type Standard struct {
-	name    string
-	length  Length
+	length  uint
 	formats []Template
 }
 
-func (s Standard) GetName() string {
-	return s.name
-}
-
-func (s Standard) GetLength() Length {
+func (s Standard) GetLength() uint {
 	return s.length
 }
 
@@ -28,9 +22,8 @@ func (s Standard) GetTemplate() string {
 	return f.String()
 }
 
-func CreateStandard(name string, passLength Length, formats ...Template) Standard {
+func CreateStandard(passLength uint, formats ...Template) Standard {
 	return Standard{
-		name:    name,
 		length:  passLength,
 		formats: append([]Template(nil), formats...),
 	}

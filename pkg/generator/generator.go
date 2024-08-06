@@ -1,12 +1,13 @@
 package generator
 
-import (
-	"math/rand/v2"
+import "math/rand/v2"
 
-	"github.com/aagavrish/passgen/pkg/generator/standard"
-)
+type Standard interface {
+	GetTemplate() string
+	GetLength() uint
+}
 
-func Generate(standard standard.Standard) string {
+func Generate(standard Standard) string {
 	template := standard.GetTemplate()
 
 	password := make([]byte, standard.GetLength())

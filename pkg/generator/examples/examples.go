@@ -11,18 +11,18 @@ const (
 
 var (
 	// NIST ...
-	NIST = standard.CreateStandard("NIST", 8,
+	NIST = standard.CreateStandard(8,
 		Digits, LowerLetters)
 
 	// ISOIEC27001 ...
-	ISOIEC27001 = standard.CreateStandard("ISO/IEC 27001", 12,
+	ISOIEC27001 = standard.CreateStandard(12,
 		Digits, LowerLetters, UpperLetters, Special)
 
 	// PSIDSS ...
-	PSIDSS = standard.CreateStandard("PCI DSS", 7,
+	PSIDSS = standard.CreateStandard(7,
 		Digits, LowerLetters, UpperLetters)
 
 	// CIS ...
-	CIS = standard.CreateStandard("CIS", 14,
+	CIS = standard.CreateStandard(14,
 		Digits, LowerLetters, UpperLetters, Special)
 )
