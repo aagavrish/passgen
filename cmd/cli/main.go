@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 
 	"github.com/aagavrish/passgen/pkg/generator"
 	"github.com/aagavrish/passgen/pkg/generator/examples"
@@ -28,6 +29,10 @@ func main() {
 		std = standard.CreateStandard(l, standard.Template(t))
 	}
 
-	password, _ := generator.Generate(std)
+	password, err := generator.Generate(std)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fmt.Println(password)
 }
