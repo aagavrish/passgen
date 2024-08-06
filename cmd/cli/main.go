@@ -28,6 +28,6 @@ func main() {
 		std = standard.CreateStandard(l, standard.Template(t))
 	}
 
-	password := generator.Generate(std)
+	password, _ := generator.Generate(std)
 	fmt.Println(password)
 }

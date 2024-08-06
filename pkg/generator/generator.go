@@ -7,14 +7,19 @@ type Standard interface {
 	GetLength() uint
 }
 
-func Generate(standard Standard) string {
+func Generate(standard Standard) (string, error) {
 	template := standard.GetTemplate()
+	if len(template) == 0 {
+		return "", ErrEmptyTemplate
+	}
 
-	password := make([]byte, standard.GetLength())
+	length := standard.GetLength()
+
+	password := make([]byte, length)
 	for i := range password {
 		index := rand.Int() % len(template)
 		password[i] = template[index]
 	}
 
-	return string(password)
+	return string(password), nil
 }

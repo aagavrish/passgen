@@ -10,7 +10,7 @@ Special      standard.Template = "~`!@#$%^&*()-+={}[]."
 ```go
 defaultStandard := standard.CreateStandard(20,
     examples.Digits, examples.LowerLetters, examples.UpperLetters, examples.Special)
-password := generator.Generate(defaultStandard)
+password, _ := generator.Generate(defaultStandard)
 ```
 
 ```go
