@@ -1,16 +1,23 @@
 package standard
 
-import "strings"
+import (
+	"math/rand/v2"
+	"strings"
+)
 
 type Template string
+type Range struct {
+	Min uint
+	Max uint
+}
 
 type Standard struct {
-	length  uint
+	r       Range
 	formats []Template
 }
 
 func (s Standard) GetLength() uint {
-	return s.length
+	return rand.UintN(s.r.Max-s.r.Min+1) + s.r.Min
 }
 
 func (s Standard) GetTemplate() string {
@@ -22,9 +29,9 @@ func (s Standard) GetTemplate() string {
 	return f.String()
 }
 
-func CreateStandard(passLength uint, formats ...Template) Standard {
+func CreateStandard(r Range, formats ...Template) Standard {
 	return Standard{
-		length:  passLength,
+		r:       r,
 		formats: append([]Template(nil), formats...),
 	}
 }
