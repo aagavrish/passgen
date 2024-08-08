@@ -12,12 +12,14 @@ import (
 
 func TestGenerator(t *testing.T) {
 	t.Parallel()
-	testRange := standard.Range{Min: 3, Max: 3}
+
+	withoutRange := standard.WithoutRange(0)
+	testRange := standard.WithRange(3, 3)
 
 	t.Run("generate password with zero length and empty template", func(t *testing.T) {
 		t.Parallel()
 
-		testStandard := standard.CreateStandard(standard.Range{Min: 0, Max: 0}, "")
+		testStandard := standard.CreateStandard(withoutRange, "")
 		password, err := Generate(testStandard)
 
 		require.ErrorIs(t, err, ErrEmptyTemplate)
@@ -27,7 +29,7 @@ func TestGenerator(t *testing.T) {
 	t.Run("generate password with zero length", func(t *testing.T) {
 		t.Parallel()
 
-		testStandard := standard.CreateStandard(standard.Range{Min: 0, Max: 0}, "abc")
+		testStandard := standard.CreateStandard(withoutRange, "abc")
 		password, err := Generate(testStandard)
 
 		require.NoError(t, err)
@@ -91,16 +93,25 @@ func TestGenerator(t *testing.T) {
 	t.Run("generate password with min and max length", func(t *testing.T) {
 		t.Parallel()
 
-		testStandard := standard.CreateStandard(standard.Range{
-			Min: 5,
-			Max: 10,
-		}, examples.Digits)
+		testStandard := standard.CreateStandard(
+			standard.WithRange(5, 10),
+			examples.Digits)
 		password, err := Generate(testStandard)
 
 		require.NoError(t, err)
 		require.GreaterOrEqual(t, len([]rune(password)), 5)
 		require.LessOrEqual(t, len([]rune(password)), 10)
 	})
+}
+
+func BenchmarkPasswordGenerate(b *testing.B) {
+	std := standard.CreateStandard(
+		standard.WithRange(5, 30),
+		examples.Digits, examples.LowerLetters, examples.UpperLetters, examples.Special)
+
+	for i := 0; i < b.N; i++ {
+		_, _ = Generate(std)
+	}
 }
 
 func isDigit(s string) bool {

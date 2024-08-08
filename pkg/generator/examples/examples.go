@@ -12,21 +12,21 @@ const (
 var (
 	// NIST ...
 	NIST = standard.CreateStandard(
-		standard.Range{Min: 8, Max: 15},
+		standard.WithRange(8, 15),
 		Digits, LowerLetters)
 
 	// ISOIEC27001 ...
 	ISOIEC27001 = standard.CreateStandard(
-		standard.Range{Min: 12, Max: 20},
+		standard.WithRange(12, 20),
 		Digits, LowerLetters, UpperLetters, Special)
 
 	// PSIDSS ...
 	PSIDSS = standard.CreateStandard(
-		standard.Range{Min: 7, Max: 15},
+		standard.WithRange(7, 15),
 		Digits, LowerLetters, UpperLetters)
 
 	// CIS ...
 	CIS = standard.CreateStandard(
-		standard.Range{Min: 14, Max: 20},
+		standard.WithRange(14, 20),
 		Digits, LowerLetters, UpperLetters, Special)
 )

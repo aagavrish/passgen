@@ -10,25 +10,33 @@ import (
 	"github.com/aagavrish/passgen/pkg/generator/standard"
 )
 
+const (
+	defaultMinLength = 10
+	defaultMaxLength = 20
+)
+
 func main() {
-	defaultStandard := standard.CreateStandard(standard.Range{Min: 10, Max: 15},
+	defaultStandard := standard.CreateStandard(
+		standard.WithRange(defaultMinLength, defaultMaxLength),
 		examples.Digits, examples.LowerLetters, examples.UpperLetters, examples.Special)
 
 	var (
-		l uint
-		t string
+		minLength uint
+		maxLength uint
+		format    string
 	)
-	flag.StringVar(&t, "template", "", "USAGE")
-	flag.UintVar(&l, "length", 0, "USAGE")
+	flag.StringVar(&format, "format", "", "--format=abcde123klaj90")
+	flag.UintVar(&minLength, "min_length", 0, "--min_length=15")
+	flag.UintVar(&maxLength, "max_length", 0, "--max_length=30")
 	flag.Parse()
 
 	var std standard.Standard
-	if t == "" || l == 0 {
+	if format == "" || minLength == 0 || maxLength == 0 {
 		std = defaultStandard
 	} else {
 		std = standard.CreateStandard(
-			standard.Range{Min: l, Max: l},
-			standard.Template(t))
+			standard.WithRange(minLength, maxLength),
+			standard.Template(format))
 	}
 
 	password, err := generator.Generate(std)
