@@ -103,6 +103,16 @@ func TestGenerator(t *testing.T) {
 	})
 }
 
+func BenchmarkPasswordGenerate(b *testing.B) {
+	std := standard.CreateStandard(
+		standard.Range{Min: 5, Max: 30},
+		examples.Digits, examples.LowerLetters, examples.UpperLetters, examples.Special)
+
+	for i := 0; i < b.N; i++ {
+		_, _ = Generate(std)
+	}
+}
+
 func isDigit(s string) bool {
 	for _, ch := range s {
 		if !unicode.IsDigit(ch) {
