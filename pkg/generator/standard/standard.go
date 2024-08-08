@@ -35,3 +35,17 @@ func CreateStandard(r Range, formats ...Template) Standard {
 		formats: append([]Template(nil), formats...),
 	}
 }
+
+func WithoutRange(length uint) Range {
+	return Range{
+		Min: length,
+		Max: length,
+	}
+}
+
+func WithRange(minLength, maxLength uint) Range {
+	return Range{
+		Min: minLength,
+		Max: maxLength,
+	}
+}
