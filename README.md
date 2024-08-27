@@ -1,33 +1,34 @@
 # Password Generator
 
 ```go
-Digits       standard.Template = "0123456789"
-LowerLetters standard.Template = "abcdefghijklmnopqrstuvwxyz"
-UpperLetters standard.Template = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-Special      standard.Template = "~`!@#$%^&*()-+={}[]."
-```
+package main
 
-```go
-defaultStandard := standard.CreateStandard(20,
-    examples.Digits, examples.LowerLetters, examples.UpperLetters, examples.Special)
-password, _ := generator.Generate(defaultStandard)
-```
+import (
+	"fmt"
+	"log"
 
-```go
-type Standard interface {
-	GetTemplate() string
-	GetLength() uint
-}
+	"github.com/aagavrish/passgen"
+	"github.com/aagavrish/passgen/examples"
+	"github.com/aagavrish/passgen/standard"
+)
 
-func Generate(standard Standard) string {
-	template := standard.GetTemplate()
+func main() {
+	// Creating a password standard with a fixed length and a specified character set.
+	std := standard.CreateStandard(standard.WithoutRange(10),
+		examples.Digits, examples.LowerLetters, examples.UpperLetters, examples.Special)
 
-	password := make([]byte, standard.GetLength())
-	for i := range password {
-		index := rand.Int() % len(template)
-		password[i] = template[index]
+	// You can also set a standard with a floating length: standard.WithRange(minLength, maxLength), where
+	// minLength - minimum password length,
+	// maxLength - maximum password length (inclusive)
+	// std := standard.CreateStandard(standard.WithRange(5, 10),
+	//     examples.Digits, examples.LowerLetters, examples.UpperLetters, examples.Special)
+
+	// Generating a password of a given standard
+	password, err := passgen.Generate(std)
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	return string(password)
+	fmt.Println(password)
 }
 ```
