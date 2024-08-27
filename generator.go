@@ -5,7 +5,7 @@ import (
 	"math/rand/v2"
 )
 
-const pkg = "generator"
+const pkg = "passgen.generator"
 const emptyPassword = ""
 
 type Standard interface {
