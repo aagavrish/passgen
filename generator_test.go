@@ -1,12 +1,12 @@
-package generator
+package passgen
 
 import (
+	"github.com/aagavrish/passgen/examples"
+	"github.com/aagavrish/passgen/standard"
 	"strings"
 	"testing"
 	"unicode"
 
-	"github.com/aagavrish/passgen/pkg/generator/examples"
-	"github.com/aagavrish/passgen/pkg/generator/standard"
 	"github.com/stretchr/testify/require"
 )
 
@@ -32,7 +32,7 @@ func TestGenerator(t *testing.T) {
 		testStandard := standard.CreateStandard(withoutRange, "abc")
 		password, err := Generate(testStandard)
 
-		require.NoError(t, err)
+		require.ErrorIs(t, err, ErrZeroLength)
 		require.Equal(t, password, "")
 	})
 

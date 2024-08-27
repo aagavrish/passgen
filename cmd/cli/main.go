@@ -3,11 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/aagavrish/passgen"
+	"github.com/aagavrish/passgen/examples"
+	"github.com/aagavrish/passgen/standard"
 	"log"
-
-	"github.com/aagavrish/passgen/pkg/generator"
-	"github.com/aagavrish/passgen/pkg/generator/examples"
-	"github.com/aagavrish/passgen/pkg/generator/standard"
 )
 
 const (
@@ -39,7 +38,7 @@ func main() {
 			standard.Template(format))
 	}
 
-	password, err := generator.Generate(std)
+	password, err := passgen.Generate(std)
 	if err != nil {
 		log.Fatal(err)
 	}
