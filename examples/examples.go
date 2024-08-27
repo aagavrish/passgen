@@ -1,6 +1,8 @@
 package examples
 
-import "github.com/aagavrish/passgen/pkg/generator/standard"
+import (
+	"github.com/aagavrish/passgen/standard"
+)
 
 const (
 	Digits       standard.Template = "0123456789"
