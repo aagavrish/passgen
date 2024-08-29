@@ -3,10 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
+
 	"github.com/aagavrish/passgen"
 	"github.com/aagavrish/passgen/examples"
 	"github.com/aagavrish/passgen/standard"
-	"log"
 )
 
 const (
@@ -29,10 +30,8 @@ func main() {
 	flag.UintVar(&maxLength, "max_length", 0, "--max_length=30")
 	flag.Parse()
 
-	var std standard.Standard
-	if format == "" || minLength == 0 || maxLength == 0 {
-		std = defaultStandard
-	} else {
+	std := defaultStandard
+	if format != "" && minLength != 0 && maxLength != 0 {
 		std = standard.CreateStandard(
 			standard.WithRange(minLength, maxLength),
 			standard.Template(format))

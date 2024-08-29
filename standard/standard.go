@@ -6,27 +6,10 @@ import (
 )
 
 type Template string
-type Range struct {
-	Min uint
-	Max uint
-}
 
 type Standard struct {
 	r       Range
 	formats []Template
-}
-
-func (s Standard) GetLength() uint {
-	return rand.UintN(s.r.Max-s.r.Min+1) + s.r.Min
-}
-
-func (s Standard) GetTemplate() string {
-	var f strings.Builder
-	for _, template := range s.formats {
-		f.WriteString(string(template))
-	}
-
-	return f.String()
 }
 
 func CreateStandard(r Range, formats ...Template) Standard {
@@ -36,16 +19,15 @@ func CreateStandard(r Range, formats ...Template) Standard {
 	}
 }
 
-func WithoutRange(length uint) Range {
-	return Range{
-		Min: length,
-		Max: length,
-	}
+func (s Standard) Length() uint {
+	return rand.UintN(s.r.Max-s.r.Min+1) + s.r.Min
 }
 
-func WithRange(minLength, maxLength uint) Range {
-	return Range{
-		Min: minLength,
-		Max: maxLength,
+func (s Standard) Template() string {
+	var f strings.Builder
+	for _, template := range s.formats {
+		f.WriteString(string(template))
 	}
+
+	return f.String()
 }
