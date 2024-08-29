@@ -1,12 +1,12 @@
 package passgen
 
 import (
-	"github.com/aagavrish/passgen/examples"
-	"github.com/aagavrish/passgen/standard"
 	"strings"
 	"testing"
 	"unicode"
 
+	"github.com/aagavrish/passgen/examples"
+	"github.com/aagavrish/passgen/standard"
 	"github.com/stretchr/testify/require"
 )
 
@@ -14,7 +14,7 @@ func TestGenerator(t *testing.T) {
 	t.Parallel()
 
 	withoutRange := standard.WithoutRange(0)
-	testRange := standard.WithRange(3, 3)
+	testRange := standard.WithoutRange(3)
 
 	t.Run("generate password with zero length and empty template", func(t *testing.T) {
 		t.Parallel()
@@ -87,7 +87,20 @@ func TestGenerator(t *testing.T) {
 
 		require.NoError(t, err)
 		require.Equal(t, len([]rune(password)), 3)
+		require.Equal(t, false, isLowerLetters(password))
 		require.Equal(t, true, isDigit(password))
+	})
+
+	t.Run("generate password from lower letters", func(t *testing.T) {
+		t.Parallel()
+
+		testStandard := standard.CreateStandard(testRange, examples.LowerLetters)
+		password, err := Generate(testStandard)
+
+		require.NoError(t, err)
+		require.Equal(t, len([]rune(password)), 3)
+		require.Equal(t, false, isDigit(password))
+		require.Equal(t, true, isLowerLetters(password))
 	})
 
 	t.Run("generate password with min and max length", func(t *testing.T) {
@@ -117,6 +130,16 @@ func BenchmarkPasswordGenerate(b *testing.B) {
 func isDigit(s string) bool {
 	for _, ch := range s {
 		if !unicode.IsDigit(ch) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func isLowerLetters(s string) bool {
+	for _, ch := range s {
+		if !unicode.IsLower(ch) {
 			return false
 		}
 	}
